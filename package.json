@@ -7,13 +7,8 @@
   "author": "Ryan Castner <castner.rr@gmail.com>",
   "license": "MIT",
   "scripts": {
-<<<<<<< HEAD
-    "start": "parcel watch index.html",
-    "build": "parcel build index.html"
-=======
     "start": "parcel src/index.html -p 3600",
     "build": "parcel build src/index.html"
->>>>>>> 55b6bed... fixup! Add parcel-bundler, npm scripts
   },
   "devDependencies": {
     "parcel-bundler": "^1.11.0"

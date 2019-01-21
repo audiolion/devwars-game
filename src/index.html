@@ -1,47 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="game.css" />
-    <script type="text/javascript" src="game.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DevWars Game</title>
+    <link rel="stylesheet" type="text/css" href="/game.css" />
   </head>
   <body>
-    <div class="nice">
-      <h1 class="title">DEV WARS GAME</h1>
-      <div class="board">
-        <div class="space" data-index="1"></div>
-        <div class="space" data-index="2"></div>
-        <div class="space" data-index="3"></div>
-        <div class="space" data-index="4"></div>
-        <div class="space" data-index="5"></div>
+    <div id="app">
+      <div class="game-container">
+        <div class="game-message">
+          <div class="game-message-title">🎉 Corner Space 🎉</div>
+          <div class="game-message-description">You get an extra roll!</div>
+        </div>
+        <div class="flex flex-horiz-center-row">
+          <h1 class="title">DevWars Game</h1>
+        </div>
 
-        <div class="space" data-index="16"></div>
-        <div class="empty"></div>
-        <div class="space" data-index="6"></div>
+        <div class="game-stats">
+          <div class="turn">
+            Current Turn: <span class="player-turn">Player</span>
+          </div>
+          <div class="rounds">
+            Rounds Left: <span class="rounds-left">3</span>
+          </div>
+        </div>
 
-        <div class="space" data-index="15"></div>
-        <div class="empty"></div>
-        <div class="space" data-index="7"></div>
+        <div class="board">
+          <div class="space" data-space-id="1">
+            <div class="token token-player"></div>
+            <div class="token token-cpu"></div>
+          </div>
+          <div class="space" data-space-id="2"></div>
+          <div class="space" data-space-id="3"></div>
+          <div class="space" data-space-id="4"></div>
+          <div class="space" data-space-id="5"></div>
 
-        <div class="space" data-index="14"></div>
-        <div class="empty"></div>
-        <div class="space" data-index="8"></div>
+          <div class="space" data-space-id="16"></div>
+          <div class="empty"></div>
+          <div class="space" data-space-id="6"></div>
 
-        <div class="space" data-index="13"></div>
-        <div class="space" data-index="12"></div>
-        <div class="space" data-index="11"></div>
-        <div class="space" data-index="10"></div>
-        <div class="space" data-index="9"></div>
+          <div class="space" data-space-id="15"></div>
+          <div class="empty"></div>
+          <div class="space" data-space-id="7"></div>
+
+          <div class="space" data-space-id="14"></div>
+          <div class="empty"></div>
+          <div class="space" data-space-id="8"></div>
+
+          <div class="space" data-space-id="13"></div>
+          <div class="space" data-space-id="12"></div>
+          <div class="space" data-space-id="11"></div>
+          <div class="space" data-space-id="10"></div>
+          <div class="space" data-space-id="9"></div>
+        </div>
+
+        <div class="roll flex flex-horiz-center-column">
+          <span class="roll-result"></span>
+          <button type="button" class="dice">Roll 🎲</button>
+        </div>
       </div>
-
-      <div class="rolled">
-        <button class="move">Roll Dice</button>
-        <div class="number"></div>
-        <div class="turns">Turns Left: <span class="turns-left"></span></div>
-      </div>
-
-      <div class="winning-result">Winner: <span class="winner"></span></div>
     </div>
   </body>
+  <script type="text/javascript" src="/game.js"></script>
 </html>

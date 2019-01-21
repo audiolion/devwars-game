@@ -1,131 +1,118 @@
 const $ = document.querySelector.bind(document);
-const $$ = selector => Array.from(document.querySelectorAll(selector));
+const $$ = document.querySelectorAll.bind(document);
 
-const sleep = time => new Promise(r => setTimeout(r, time));
+const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const createState = () => ({
-  players: [
-    {
-      user: "user",
-      name: "red",
-      place: 0,
-      rolls: 3
+const state = {
+  rounds: 3,
+  turn: "player",
+  tokens: {
+    cpu: {
+      name: "cpu",
+      position: 1,
+      rolls: [],
+      html: `<div class="token token-cpu"></div>`
     },
-    {
-      user: "cpu",
-      name: "blue",
-      place: 0,
-      rolls: 3
+    player: {
+      name: "player",
+      position: 1,
+      rolls: [],
+      html: `<div class="token token-player"></div>`
     }
-  ],
-  currentPlayer: 0
-});
-
-let state = createState();
-
-const reset = () => {
-  state = createState();
-  render(state);
+  }
 };
 
-const getSquare = index => {
-  const squares = $$(".space");
-  const place = (index % squares.length) + 1;
-  return $('[data-index="' + place + '"]');
+const switchTurn = async () => {
+  state.turn = state.turn === "cpu" ? "player" : "cpu";
+  $(".player-turn").innerText =
+    state.turn.charAt(0).toUpperCase() + state.turn.slice(1);
+};
+
+const decreaseRounds = () => {
+  state.rounds = state.rounds - 1;
+  $(".rounds-left").innerText = state.rounds;
+};
+
+const getSpace = position => $(`[data-space-id="${position}"]`);
+
+const addRoll = (token, rollValue) => {
+  state.tokens[token.name] = {
+    ...token,
+    rolls: [...token.rolls, rollValue]
+  };
+};
+
+const moveToken = async (tokenName, spaces) => {
+  let token = state.tokens[tokenName];
+  addRoll(token, spaces);
+  for (let i = token.position; i < token.position + spaces; i++) {
+    await advancePosition(tokenName);
+  }
+  await sleep(500);
+  $(".roll-result").innerText = "";
+};
+
+const advancePosition = async tokenName => {
+  let token = state.tokens[tokenName];
+  state.tokens[tokenName] = {
+    ...token,
+    position: token.position + 1
+  };
+  $(`.token-${token.name}`).remove();
+  let space = getSpace(state.tokens[tokenName].position);
+  space.innerHTML += token.html;
+  return sleep(300);
 };
 
 const rollDice = () => {
-  return Math.floor(Math.random() * 6) + 1;
+  return Math.floor(Math.random() * 6);
 };
 
-const nextPlayer = async state => {
-  state.currentPlayer++;
-  if (state.players[state.currentPlayer] === undefined) {
-    state.currentPlayer = 0;
-  }
-
-  if (state.players[state.currentPlayer].user === "cpu") {
-    await sleep(300);
-    const rolled = rollDice();
-    handleMove(state, rolled);
-  }
+const cpuRoll = async () => {
+  await takeTurn();
 };
 
-const render = state => {
-  $$(".space").forEach(space => (space.innerHTML = ""));
-
-  $(".turns-left").textContent = state.players[0].rolls;
-
-  for (const player of state.players) {
-    const square = getSquare(player.place);
-
-    const element = document.createElement("div");
-    element.className = "player " + player.name;
-
-    square.appendChild(element);
-  }
+const takeTurn = async () => {
+  const rollValue = rollDice();
+  $(".roll-result").innerText = rollValue;
+  await moveToken(state.turn, rollValue);
 };
 
-const handleMove = async (state, roll) => {
-  const currentPlayer = state.players[state.currentPlayer];
-
-  currentPlayer.rolls--;
-
-  $(".number").textContent = roll;
-
-  for (let i = 0; i < roll; i++) {
-    currentPlayer.place++;
-
-    render(state);
-
-    console.log("render", currentPlayer.place);
-
-    await sleep(300);
+const calculateWinner = () => {
+  if (state.tokens.player.position > state.tokens.cpu.position) {
+    // player wins
+    $(".game-message-title").innerText = "🎉 You Win! 🎉";
+    $(".game-message-description").innerText = `${
+      state.tokens.player.position
+    } - ${state.tokens.cpu.position}`;
+  } else {
+    // cpu wins
+    $(".game-message-title").innerText = "CPU Wins :(";
+    $(".game-message-description").innerText = `${
+      state.tokens.player.position
+    } - ${state.tokens.cpu.position}`;
   }
-
-  if ([0, 4, 8, 12].includes(currentPlayer.place % $$(".square").length)) {
-    currentPlayer.rolls++;
-  }
-
-  $(".turns-left").textContent = state.players[0].rolls;
-
-  $(".number").textContent = "";
-
-  nextPlayer(state);
-
-  $(".move").disabled = state.players[state.currentPlayer].user === "cpu";
-
-  if (state.players.every(player => player.rolls <= 0)) {
-    // screw doing it the nice way
-    const tie = state.players[0].place === state.players[1].place;
-    const winnerIsPlayer = state.players[0].place > state.players[1].place;
-
-    $(".winning-result").style.display = "block";
-    $(".winner").textContent = tie
-      ? "TIE!"
-      : winnerIsPlayer
-      ? "Player wins!"
-      : "You lose, suckah";
-
-    $(".move").disabled = true;
-  }
+  $(".game-message").style.display = "block";
 };
 
-// who adds the script in the header nowadays anyways
-// wtf
-document.addEventListener("DOMContentLoaded", () => {
-  render(state);
-
-  $(".move").addEventListener("click", async () => {
-    const currentPlayer = state.players[state.currentPlayer];
-
-    if (currentPlayer.user !== "cpu") {
-      const rolled = rollDice();
-      handleMove(state, rolled);
+const render = () => {
+  $(".dice").onclick = async function(e) {
+    e.target.disabled = true;
+    await takeTurn();
+    // check if corner space
+    await sleep(500);
+    await switchTurn();
+    await sleep(800);
+    await cpuRoll();
+    await sleep(500);
+    await switchTurn();
+    decreaseRounds();
+    if (state.rounds === 0) {
+      calculateWinner();
     } else {
-      alert("Not yo turn");
+      e.target.removeAttribute("disabled");
     }
-  });
+  };
+};
 
-  $(".move").disabled = state.players[state.currentPlayer].user === "cpu";
-});
+render();

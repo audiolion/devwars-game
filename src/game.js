@@ -88,9 +88,9 @@ const calculateWinner = () => {
   if (state.tokens.player.position > state.tokens.cpu.position) {
     // player wins
     $(".game-message-title").innerText = "🎉 You Win! 🎉";
-    $(".game-message-description").innerText = `${
-      state.tokens.player.position
-    } - ${state.tokens.cpu.position}`;
+  } else if (state.tokens.player.position === state.tokens.cpu.position) {
+    // tie
+    $(".game-message-title").innerText = "It's a Tie!";
   } else {
     // cpu wins
     $(".game-message-title").innerText = "CPU Wins :(";

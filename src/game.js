@@ -94,10 +94,13 @@ const calculateWinner = () => {
   } else {
     // cpu wins
     $(".game-message-title").innerText = "CPU Wins :(";
-    $(".game-message-description").innerText = `${
-      state.tokens.player.position
-    } - ${state.tokens.cpu.position}`;
   }
+  $(
+    ".game-message-description"
+  ).innerText = `${state.tokens.player.rolls.reduce(
+    (acc, curr) => (acc = acc + curr),
+    0
+  )} - ${state.tokens.cpu.rolls.reduce((acc, curr) => (acc = acc + curr), 0)}`;
   $(".game-message").style.display = "block";
 };
 

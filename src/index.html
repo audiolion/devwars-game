@@ -9,36 +9,57 @@
   </head>
   <body>
     <div id="app">
-      <h1 class="title">DevWars Game</h1>
+      <div class="game-container">
+        <div class="game-message">
+          <div class="game-message-title">🎉 Corner Space 🎉</div>
+          <div class="game-message-description">You get an extra roll!</div>
+        </div>
+        <div class="flex flex-horiz-center-row">
+          <h1 class="title">DevWars Game</h1>
+        </div>
 
-      <div class="game-stats">
-        <div class="turn">Current Turn: <span class="player-turn"></span></div>
-        <div class="rounds">Rounds Left: <span class="rounds-left"></span></div>
-      </div>
+        <div class="game-stats">
+          <div class="turn">
+            Current Turn: <span class="player-turn">Player</span>
+          </div>
+          <div class="rounds">
+            Rounds Left: <span class="rounds-left">3</span>
+          </div>
+        </div>
 
-      <div class="board">
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-        <div class="space"></div>
-      </div>
+        <div class="board">
+          <div class="space">
+            <div class="token token-player"></div>
+            <div class="token token-cpu"></div>
+          </div>
+          <div class="space"></div>
+          <div class="space"></div>
+          <div class="space"></div>
+          <div class="space"></div>
 
-      <div class="roll">
-        <button class="dice">Roll Dice</button>
-        <span class="roll-result"></span>
-        <div class="game-message"></div>
+          <div class="space"></div>
+          <div class="empty"></div>
+          <div class="space"></div>
+
+          <div class="space"></div>
+          <div class="empty"></div>
+          <div class="space"></div>
+
+          <div class="space"></div>
+          <div class="empty"></div>
+          <div class="space"></div>
+
+          <div class="space"></div>
+          <div class="space"></div>
+          <div class="space"></div>
+          <div class="space"></div>
+          <div class="space"></div>
+        </div>
+
+        <div class="roll flex flex-horiz-center-column">
+          <span class="roll-result">5</span>
+          <button class="dice">Roll 🎲</button>
+        </div>
       </div>
     </div>
   </body>

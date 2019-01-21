@@ -3,6 +3,21 @@ html {
   font-size: 10px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --hue: 200; /* Blue */
+  --accent-hue: 200; /* Orange */
+  --text-color-normal: hsl(var(--hue), 10%, 62%);
+  --text-color-light: hsl(var(--hue), 15%, 35%);
+  --text-color-richer: hsl(var(--hue), 50%, 72%);
+  --text-color-highlight: hsl(var(--accent-hue), 70%, 45%);
+  --link-color: hsl(var(--hue), 90%, 70%);
+  --accent-color: hsl(var(--accent-hue), 100%, 70%);
+  --error-color: rgb(240, 50, 50);
+  --button-background: hsl(var(--hue), 63%, 43%);
+  --button-text-color: white;
+  --background: hsl(var(--hue), 10%, 6%);
+  --offwhite: #fdfdfd;
+  --background-highlight: hsl(0, 0%, 18%);
+  --background-highlight-border: hsl(0, 0%, 36%);
 }
 *,
 *:before,
@@ -14,6 +29,8 @@ body {
   height: 100vh;
   width: 100vw;
   margin: 0;
+  background: var(--background);
+  color: var(--text-color-normal);
 }
 
 #app {
@@ -22,4 +39,134 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.game-container {
+  max-width: 540px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-horiz-center-row {
+  flex-direction: row;
+  justify-content: center;
+}
+
+.flex-horiz-center-column {
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  text-transform: uppercase;
+  color: var(--accent-color);
+  text-align: center;
+  border-bottom: 1px solid var(--background-highlight-border);
+  display: inline-block;
+  font-size: 4rem;
+  letter-spacing: 1.4px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 10px;
+}
+
+.empty {
+  grid-column: 2 / 5;
+}
+
+.space {
+  height: 100px;
+  width: 100px;
+  background: var(--background-highlight);
+  border: 1px solid var(--offwhite);
+  position: relative;
+}
+
+.roll {
+  margin-top: 2rem;
+}
+
+.roll-result {
+  font-size: 2.5rem;
+  font-weight: 600;
+  height: 2.5rem;
+  margin: 1rem 0;
+  color: white;
+}
+
+.dice {
+  color: var(--button-text-color);
+  background-color: var(--button-background);
+  border: 1px solid white;
+  padding: 1rem 2rem;
+  border-radius: 0.4rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  line-height: 20px;
+  letter-spacing: 0.6px;
+  font-weight: 500;
+}
+
+.game-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+  margin: 2rem 0;
+  font-size: 2rem;
+}
+
+.player-turn,
+.rounds-left {
+  font-weight: 600;
+  border: 1px solid var(--background-highlight-border);
+  border-radius: 4px;
+  padding: 0.6rem 1rem;
+}
+
+.game-message {
+  background-color: var(--background-highlight);
+  color: var(--offwhite);
+  text-align: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: none;
+}
+
+.game-message-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.game-message-description {
+  font-size: 2rem;
+}
+
+.token {
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
+  margin: 1rem;
+}
+
+.token-cpu {
+  background-color: red;
+  bottom: 0;
+  right: 0;
+}
+
+.token-player {
+  background-color: gold;
+  top: 0;
+  left: 0;
 }

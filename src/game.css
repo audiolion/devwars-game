@@ -116,6 +116,11 @@ body {
   line-height: 20px;
   letter-spacing: 0.6px;
   font-weight: 500;
+  cursor: pointer;
+}
+
+.dice:disabled {
+  opacity: 0.4;
 }
 
 .game-stats {

@@ -25,9 +25,13 @@ const state = {
 };
 
 const switchTurn = async () => {
-  state.turn = state.turn === "cpu" ? "player" : "cpu";
-  $(".player-turn").innerText =
-    state.turn.charAt(0).toUpperCase() + state.turn.slice(1);
+  if (state.turn === "cpu") {
+    state.turn = "player";
+    $(".player-turn").innerText = "Player";
+  } else {
+    state.turn = "cpu";
+    $(".player-turn").innerText = "CPU";
+  }
 };
 
 const decreaseRounds = () => {

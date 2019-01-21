@@ -71,7 +71,7 @@ const advancePosition = async tokenName => {
 };
 
 const rollDice = () => {
-  return Math.floor(Math.random() * 6);
+  return Math.ceil(Math.random() * 6);
 };
 
 const cpuRoll = async () => {

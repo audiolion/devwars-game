@@ -3,19 +3,21 @@ const $$ = document.querySelectorAll.bind(document);
 
 const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
 
+const CORNER_POSITIONS = [0, 4, 8, 12];
+
 const state = {
   rounds: 3,
   turn: "player",
   tokens: {
     cpu: {
       name: "cpu",
-      position: 1,
+      position: 0,
       rolls: [],
       html: `<div class="token token-cpu"></div>`
     },
     player: {
       name: "player",
-      position: 1,
+      position: 0,
       rolls: [],
       html: `<div class="token token-player"></div>`
     }
@@ -33,7 +35,7 @@ const decreaseRounds = () => {
   $(".rounds-left").innerText = state.rounds;
 };
 
-const getSpace = position => $(`[data-space-id="${position}"]`);
+const getSpace = position => $(`[data-space-id="${position + 1}"]`);
 
 const addRoll = (token, rollValue) => {
   state.tokens[token.name] = {
@@ -56,7 +58,7 @@ const advancePosition = async tokenName => {
   let token = state.tokens[tokenName];
   state.tokens[tokenName] = {
     ...token,
-    position: token.position + 1
+    position: (token.position + 1) % 16
   };
   $(`.token-${token.name}`).remove();
   let space = getSpace(state.tokens[tokenName].position);
@@ -98,13 +100,24 @@ const calculateWinner = () => {
 const render = () => {
   $(".dice").onclick = async function(e) {
     e.target.disabled = true;
+    $(".game-message").style.display = "none";
     await takeTurn();
-    // check if corner space
+    if (CORNER_POSITIONS.includes(state.tokens.player.position)) {
+      e.target.removeAttribute("disabled");
+      $(".game-message").style.display = "block";
+      return;
+    }
     await sleep(500);
     await switchTurn();
     await sleep(800);
     await cpuRoll();
     await sleep(500);
+    while (CORNER_POSITIONS.includes(state.tokens.cpu.position)) {
+      $(".game-message-description").innerText = "CPU gets an extra roll";
+      $(".game-message").style.display = "block";
+      await cpuRoll();
+    }
+    $(".game-message-description").innerText = "Player gets an extra roll";
     await switchTurn();
     decreaseRounds();
     if (state.rounds === 0) {

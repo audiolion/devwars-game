@@ -1,5 +1,7 @@
 # DevWars Game
 
+[Play DevWars Game](https://devwars-game.netlify.com)
+
 On Saturday, 1/20/2019, I had the privilege to compete in a classic game of [DevWars](https://devwars.tv). In this game I was paired with two other teammates to compete against another team of three developers. We each had an assigned role, html, css, or javascript. I was in charge of the css, and we had to work together with one another to complete the objectives of the challenge in 60 minutes.
 
 The challenge was this:

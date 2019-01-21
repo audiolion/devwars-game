@@ -127,7 +127,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   place-items: center;
-  margin: 2rem 0;
+  margin: 2rem 0 5rem 0;
   font-size: 2rem;
 }
 
@@ -174,4 +174,17 @@ body {
   background-color: gold;
   top: 0;
   left: 0;
+}
+
+@media screen and (max-height: 940px) {
+  html {
+    font-size: 5px;
+  }
+  .space {
+    height: 50px;
+    width: 50px;
+  }
+  .game-container {
+    max-width: 340px;
+  }
 }
